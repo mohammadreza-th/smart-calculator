@@ -1,0 +1,75 @@
+/* بسم الله الرحمن الرحیم */
+
+main {
+  margin: 150px;
+  display: flex;
+  background-color: red;
+  padding: 15px;
+  height: fit-content;
+  max-height: 265px;
+}
+button {
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.monitor {
+  padding: 10px;
+  background-color: grey;
+  height: 50px;
+}
+.result-container {
+  padding-top: auto;
+  padding-left: 20px;
+  margin: 0;
+  width: 600px;
+  background-color: blue;
+  color: white;
+}
+.result-container button {
+  width: 100%;
+  border: none;
+  outline: none;
+}
+.result {
+  padding-left: 5px;
+}
+.typed {
+  background-color: grey;
+}
+.keybord {
+  display: flex;
+}
+.numbers {
+  padding: 10px;
+  background-color: rgb(104, 196, 253);
+  height: auto;
+  display: grid;
+  grid-template-columns: 50px 50px 50px;
+  grid-gap: 5px;
+}
+.number {
+  background-color: white;
+  color: blue;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 40px;
+  font-size: 24px;
+  font-weight: bold;
+}
+.number:hover {
+  background-color: blue;
+  color: white;
+}
+.operators {
+  background-color: rgb(104, 196, 253);
+  grid-template-columns: 50px 50px;
+  grid-template-rows: 40px 40px 40px 40px;
+  grid-auto-flow: column;
+}
+.operator {
+}

@@ -1,0 +1,53 @@
+<!-- بسم الله الرحمن الرحیم -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <script src="calculator.js" defer></script>
+
+    <title>Eng Calculator!</title>
+  </head>
+  <body>
+    <main>
+      <div class="calculator">
+        <div id="monitor" class="monitor">
+          <input type="text" id="typed" class="typed" value="0" />
+        </div>
+        <div id="keybord" class="keybord">
+          <div id="numbers" class="numbers">
+            <button class="number">1</button>
+            <button class="number">2</button>
+            <button class="number">3</button>
+            <button class="number">4</button>
+            <button class="number">5</button>
+            <button class="number">6</button>
+            <button class="number">7</button>
+            <button class="number">8</button>
+            <button class="number">9</button>
+            <button class="number">.</button>
+            <button class="number">0</button>
+            <button class="number" id="equalTo">=</button>
+          </div>
+          <div class="operators numbers">
+            <button class="operator number">+</button>
+            <button class="operator number">-</button>
+            <button class="operator number">*</button>
+            <button class="operator number">/</button>
+            <button class="operator number">%</button>
+            <button class="operator number" id="clear">C</button>
+            <button class="operator number">(</button>
+            <button class="operator number">)</button>
+          </div>
+        </div>
+      </div>
+      <div id="result-container" class="result-container">
+        <button id="claerResult">clear</button> result:
+        <div id="result" class="result">
+          </div>
+        </div>
+    </main>
+  </body>
+</html>
