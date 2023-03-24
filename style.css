@@ -24,16 +24,33 @@ button {
   padding-left: 20px;
   margin: 0;
   width: 600px;
-  background-color: blue;
-  color: white;
+  background-color: white;
+  color: blue;
 }
 .result-container button {
   width: 100%;
   border: none;
   outline: none;
 }
-.result {
+.results {
   padding-left: 5px;
+}
+.result {
+  display: grid;
+  grid-template-columns: 8fr repeat(3, 1fr);
+  background-color: rgb(159, 206, 254);
+  border-bottom: 1px solid white;
+}
+.result button {
+  background-color: transparent;
+  font-size: 8px;
+  /* border: 1px solid grey; */
+  border-radius: 5px;
+  color: blue;
+}
+.result .delet,.result .toMonitor{
+  font-size: 15px;
+
 }
 .typed {
   background-color: grey;

@@ -19,34 +19,77 @@ function toMonitor(a) {
   }
 }
 function clearTyped() {
-  typed.value = `0`;
+  typed.value = ``;
 }
-function calculate() {
-  let newResult = result.appendChild(document.createElement("div"));
-  if (eval(typed.value) !== 0) {
-    newResult.innerHTML = `${eval(typed.value)}`;
-    result.insertBefore(newResult, result.childNodes[1]);
-    if (result.childNodes.length === 14) {
-      result.removeChild(result.lastChild);
-    }
-  }
-  clearTyped();
+function calculate(expression) {
+  return eval(expression);
 }
 function clearResult() {
   result.innerHTML = ``;
 }
+function toResult() {
+  typed.value = calculate(typed.value);
+  typed.style.color = "green";
+  let newResult = document.createElement("div");
+  newResult.classList.add("result");
 
+  result.appendChild(newResult);
+
+  if (typed.value === "0" || typed.value === "undefined") {
+    typed.value = "";
+  } else {
+    newResult.innerHTML = `<div>${calculate(typed.value)}</div>
+    <button class="copy"><span class="fa fa-copy"></span></button>
+    <button class="delet">x</button>
+    <button class="toMonitor">⤽</button>
+    `;
+    result.insertBefore(newResult, result.childNodes[0]);
+    if (result.childNodes.length === 14) {
+      result.removeChild(result.lastChild);
+    }
+  }
+}
 
 //adding event listeners:
-equalTo.addEventListener("click", calculate);
+equalTo.addEventListener("click", toResult);
 clear.addEventListener("click", clearTyped);
-claerResult.addEventListener("click",clearResult)
-keyBord.addEventListener("click", (a) => {
-  if (a.target.nodeName === "BUTTON") {
-    if (a.target.id === "clear" || a.target.id === "equalTo") {
+claerResult.addEventListener("click", clearResult);
+typed.addEventListener("keypress", (event) => {
+  console.log(event.key);
+  if (event.key === "Enter") {
+    toResult();
+  } else if (
+    event.key === "Backspace" ||
+    event.key === "Shift" ||
+    event.key === "Alt" ||
+    event.key === "Control" ||
+    event.key === "Delete" ||
+    event.key === "ArrowLeft" ||
+    event.key === "ArrowRight" ||
+    event.key === "ArrowUp" ||
+    event.key === "ArrowDown" ||
+    event.key === "tab" ||
+    event.key === "." ||
+    event.key === "+" ||
+    event.key === "-" ||
+    event.key.match(/[0-9]/)
+  ) {
+    if (typed.style.color === "green") {
+      typed.style.color = "black";
+    }
+  } else if (event.key.match(/[A-z]/)) {
+    typed.blur();
+  }
+});
+keyBord.addEventListener("click", (event) => {
+  if (event.target.nodeName === "BUTTON") {
+    if (event.target.id === "clear" || event.target.id === "equalTo") {
       return;
     } else {
-      toMonitor(a.target.innerHTML);
+      if (typed.style.color === "green") {
+        typed.style.color = "black";
+      }
+      toMonitor(event.target.innerHTML);
     }
   } else {
     return;

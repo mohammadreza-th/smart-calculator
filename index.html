@@ -5,7 +5,14 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script
+      src="https://kit.fontawesome.com/2c3fb0c56d.js"
+      crossorigin="anonymous"
+    ></script>
+
     <link rel="stylesheet" href="./style.css" />
+
     <script src="calculator.js" defer></script>
 
     <title>Eng Calculator!</title>
@@ -14,7 +21,7 @@
     <main>
       <div class="calculator">
         <div id="monitor" class="monitor">
-          <input type="text" id="typed" class="typed" value="0" />
+          <input type="text" id="typed" class="typed" />
         </div>
         <div id="keybord" class="keybord">
           <div id="numbers" class="numbers">
@@ -45,9 +52,8 @@
       </div>
       <div id="result-container" class="result-container">
         <button id="claerResult">clear</button> result:
-        <div id="result" class="result">
-          </div>
-        </div>
+        <div id="result" class="results"></div>
+      </div>
     </main>
   </body>
 </html>
