@@ -21,37 +21,37 @@
     <main>
       <div class="calculator">
         <div id="monitor" class="monitor">
-          <input type="text" id="typed" class="typed" />
+          <input type="text" id="typed" class="typed"  />
         </div>
         <div id="keybord" class="keybord">
           <div id="numbers" class="numbers">
-            <button class="number">1</button>
-            <button class="number">2</button>
-            <button class="number">3</button>
-            <button class="number">4</button>
-            <button class="number">5</button>
-            <button class="number">6</button>
-            <button class="number">7</button>
-            <button class="number">8</button>
-            <button class="number">9</button>
-            <button class="number">.</button>
-            <button class="number">0</button>
-            <button class="number" id="equalTo">=</button>
+            <button class="number" value="1">1</button>
+            <button class="number" value="2">2</button>
+            <button class="number" value="3">3</button>
+            <button class="number" value="4">4</button>
+            <button class="number" value="5">5</button>
+            <button class="number" value="6">6</button>
+            <button class="number" value="7">7</button>
+            <button class="number" value="8">8</button>
+            <button class="number" value="9">9</button>
+            <button class="number" value=".">.</button>
+            <button class="number" value="0">0</button>
+            <button class="number" id="equal-to">=</button>
           </div>
           <div class="operators numbers">
-            <button class="operator number">+</button>
-            <button class="operator number">-</button>
-            <button class="operator number">*</button>
-            <button class="operator number">/</button>
-            <button class="operator number">%</button>
+            <button class="operator number" value="+">+</button>
+            <button class="operator number" value="-">-</button>
+            <button class="operator number" value="*">x</button>
+            <button class="operator number" value="/">/</button>
+            <button class="operator number" value="%">%</button>
+            <button class="operator number" id="delete-last-char">dell</button>
             <button class="operator number" id="clear">C</button>
-            <button class="operator number">(</button>
-            <button class="operator number">)</button>
+            <button class="operator number" id="Parentheses">()</button>
           </div>
         </div>
       </div>
       <div id="result-container" class="result-container">
-        <button id="claerResult">clear</button> result:
+        <button id="claerResult">clear</button> results list:
         <div id="result" class="results"></div>
       </div>
     </main>
