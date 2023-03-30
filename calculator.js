@@ -34,15 +34,11 @@ const BUTTONS = [
   { id: "+", view: "+", value: "+", type: "operator" },
   { id: "-", view: "-", value: "-", type: "operator" },
   { id: "/", view: "/", value: "/", type: "operator" },
+  { id: ")", view: ")", value: ")", type: "function" },
+  { id: "(", view: "(", value: "(", type: "function" },
   { id: "sin(", view: "sin(", value: "Math.sin(", type: "function" },
 
   { id: "%", view: "%", value: "*(1/100)", type: "operator" },
-  {
-    id: "()",
-    view: `${setParentheses}`,
-    value: `${setParentheses}`,
-    type: "function",
-  },
 ];
 
 //functions:
@@ -59,26 +55,10 @@ function toMonitor(a, b) {
     typedV.value = `${a}`;
   }
 }
-//---------------------------------------------------
-function toBackGround(a, b) {
-  {
-    if (b) {
-      if (typedB.value === "0") {
-        typedB.value = ``;
-        typedB.value += `${a}`;
-      } else {
-        typedB.value += `${a}`;
-      }
-    } else {
-      typedB.value = `${a}`;
-    }
-  }
-}
 
 //---------------------------------------------------
 function clearTyped() {
   toMonitor("", false);
-  // toBackGround("", false);
   typed.style.color = "var(--red-set-3)";
 }
 
@@ -90,7 +70,6 @@ function deleteChar(a) {
   } else {
     if (a.length > 0) {
       toMonitor(a.slice(0, -1), false);
-      // toBackGround(typed.value.slice(0, -1), false);
       typed.style.color = "var(--red-set-3)";
     } else {
       return;
@@ -114,12 +93,27 @@ function clearResult() {
 
 //---------------------------------------------------
 function setParentheses() {
+  let openParanthesesCount = typedV.value.match(/[(]/g);
+  let closeParanthesesCount = typedV.value.match(/[)]/g);
+  if (typedV.value === "") {
+    ParenthesesIsOpen = false;
+  }
+  if (openParanthesesCount !== null) {
+    console.log(openParanthesesCount.length);
+  }
+  lastChar = typedV.value.slice(-1);
   if (ParenthesesIsOpen) {
-    return ")";
-    // toBackGround(")", true);
+    if (whatType(lastChar) === "number") {
+      console.log("open");
+      ParenthesesIsOpen = false;
+    }
+    toMonitor(")", true);
   } else {
-    return "(";
-    // toBackGround("(", true);
+    if (closeParanthesesCount === openParanthesesCount) {
+      ParenthesesIsOpen = false;
+    }
+    toMonitor("(", true);
+    ParenthesesIsOpen = true;
   }
 }
 
@@ -162,26 +156,23 @@ function insert(btn) {
     }
     return;
   }
-//how to use operators
+  //how to use operators
   if (typedV.value === "") {
     if (whatType(btn) === "operator") {
       return;
     } else {
       equalToIsValid = true;
       toMonitor(viewOf(btn), true);
-      // toBackGround(button.value, true);
     }
   } else {
-    let lastChar = typedV.value.slice(-1);
+    lastChar = typedV.value.slice(-1);
     if (whatType(lastChar) === whatType(btn) && whatType(btn) === "operator") {
       if (lastChar === viewOf(btn)) {
         return;
       } else {
         toMonitor(typedV.value.slice(0, -1), false);
-        // toBackGround(typed.value.slice(0, -1), false);
 
         toMonitor(viewOf(btn), true);
-        // toBackGround(button.backGround, true);
       }
     } else {
       if (typed.style.color === "white") {
@@ -190,11 +181,9 @@ function insert(btn) {
         } else {
           typed.style.color = "var(--red-set-3)";
           toMonitor("", false);
-          // toBackGround("", false);
         }
       }
       toMonitor(viewOf(btn), true);
-      // toBackGround(button.value, true);
     }
   }
 }
@@ -204,7 +193,6 @@ function toResult() {
   if (equalToIsValid) {
     equalToIsValid = false;
     toMonitor(calculate(typedV.value), false);
-    // toBackGround(calculate(typed.value, false));
     resultContainer.style.display = "block";
 
     let newResult = document.createElement("div");
@@ -212,7 +200,6 @@ function toResult() {
     result.appendChild(newResult);
     if (typedV.value === "undefined") {
       toMonitor("", false);
-      // toBackGround("", false);
     } else {
       newResult.innerHTML = `<div>${calculate(typedV.value)}</div>
       <div class="result__btns">
@@ -248,7 +235,6 @@ function toResult() {
           event.target.parentElement.parentElement.childNodes[0].innerText,
           false
         );
-        // toBackGround(
         //   event.target.parentElement.parentElement.childNodes[0].innerText,
         //   false
         // );
@@ -270,7 +256,7 @@ claerResult.addEventListener("click", clearResult);
 remove.addEventListener("click", () => {
   deleteChar(typedV.value);
 });
-// Parentheses.addEventListener("click", setParentheses);
+Parentheses.addEventListener("click", setParentheses);
 
 typedV.addEventListener("keydown", (event) => {
   if (event.key === "Backspace") {
@@ -291,8 +277,8 @@ keyBord.addEventListener("click", (event) => {
     if (
       event.target.id === "clear" ||
       event.target.id === "equal-to" ||
-      event.target.id === "delete-last-char"
-      // event.target.id === "Parentheses"
+      event.target.id === "delete-last-char" ||
+      event.target.id === "Parentheses"
     ) {
       return;
     } else {
