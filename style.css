@@ -1,17 +1,35 @@
 /* بسم الله الرحمن الرحیم */
 
+/* CSS variables */
+:root {
+  --green-set-1: rgb(0, 40, 0);
+  --green-set-2: rgb(0, 60, 0);
+  --green-set-2: rgb(0, 80, 0);
+  --green-set-2: rgb(0, 100, 0);
+
+  --red-set-1: rgb(50, 0, 0);
+  --red-set-2: rgb(100, 0, 0);
+  --red-set-3: rgb(150, 0, 0);
+  --red-set-4: rgb(200, 0, 0);
+  --red-set-5: rgb(255, 150, 150);
+  --red-set-6: rgb(255, 200, 200);
+
+  --blue-set-1: rgb(0, 0, 50);
+  --blue-set-2: rgb(0, 0, 100);
+  --blue-set-3: rgb(0, 0, 150);
+  --blue-set-4: rgb(0, 0, 200);
+}
 main {
   display: flex;
-  background-color: red;
+  background-color: var(--red-set-6);
   padding: 15px;
+  max-height: 500px;
   height: fit-content;
-  max-height: 265px;
-  width: ;
 }
 
 @media screen and (min-width: 320px) {
   main {
-    margin: 0px;
+    margin: 0;
   }
   .result-container {
     display: none;
@@ -27,21 +45,20 @@ main {
   .result-container {
     display: block;
     padding-top: auto;
-    padding-left: 20px;
+    /* padding-left: 20px; */
     margin: 0;
     width: 100%;
-    max-width: 350px;
+    /* max-width: 350px; */
     background-color: white;
-    color: blue;
   }
   .calculator {
-    width: 40%;
+    width: fit-content;
   }
 }
 @media screen and (min-width: 1200px) {
   main {
     margin: 10% auto;
-    width: 60%;
+    width: fit-content;
     max-width: 1200px;
   }
 }
@@ -50,63 +67,106 @@ button {
   border: none;
   cursor: pointer;
 }
-
+.calculator {
+  /* background-color: blue; */
+  /* padding: 10px;  */
+}
 .monitor {
   padding: 10px;
-  background-color: grey;
+  border-radius: 7px 7px 0 0;
+  background-color: white;
   height: 50px;
+  /* width: 100%; */
+}
+.monitor input {
+  margin: 0;
+  padding: 0 5px;
+  width: 100%;
+  height: 100%;
+  font-size: 32px;
+  background-color: var(--red-set-6);
+  color: var(--red-set-3);
+  outline: 0;
+  border: 0;
+  border-radius: 5px;
 }
 .result-container {
+  width: fit-content;
+  display: none;
   padding-top: auto;
-  padding-left: 20px;
   margin: 0;
+  border-left: 3px solid var(--red-set-6);
   background-color: white;
-  color: blue;
+  color: var(--red-set-3);
 }
-.result-container button {
-  width: 100%;
+.result-container #claerResult {
+  margin: 3px auto;
+  border-radius: 2px;
+  min-width: fit-content;
+  width: 80%;
+  display: block;
+  color: var(--red-set-3);
+  background-color: var(--red-set-6);
   border: none;
   outline: none;
 }
 .results {
+  margin: 0 auto;
   padding-left: 5px;
+  padding-right: 5px;
 }
 .result {
+  position: relative;
+  padding: 0 5px;
   display: flex;
   justify-content: space-between;
-  background-color: rgb(159, 206, 254);
+  align-items: center;
+  background-color: var(--red-set-6);
   border-bottom: 1px solid white;
+  border-radius: 2px;
+  width: 270px;
+}
+.tooltip{
+  position: absolute;
+  padding: 3px;
+  background-color: var(--red-set-5);
+  color: var(--red-set-6);
+  width: fit-content;
+  left: 110%;
+  white-space: nowrap;
+  border-radius: 3px;
+}
+.tooltip span{
+  color: white;
 }
 .result button {
   background-color: transparent;
   margin: 3px;
   /* border: 1px solid grey; */
   border-radius: 3px;
-  color: gray;
+  color: var(--red-set-5);
   width: 20px;
   height: 20px;
   font-size: 9px;
 }
 
-.typed {
-  background-color: grey;
-}
 .keybord {
+  /* padding: 7px; */
   display: flex;
-  justify-content: space-between;
-  background-color: rgb(104, 196, 253);
+  justify-content: space-around;
+  background-color: var(--red-set-6);
   width: 100%;
 }
-.numbers {
+.buttons {
   padding: 10px;
   height: auto;
   display: grid;
   grid-template-columns: 50px 50px 50px;
   grid-gap: 5px;
 }
-.number {
+.button {
   background-color: white;
-  color: blue;
+  color: var(--red-set-5);
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -116,15 +176,18 @@ button {
   font-size: 24px;
   font-weight: bold;
 }
-.number:hover {
-  background-color: blue;
+.button:hover {
+  background-color: var(--red-set-5);
   color: white;
 }
-.operators {
-  background-color: rgb(104, 196, 253);
+.operators,
+.functions {
   grid-template-columns: auto;
   grid-template-rows: 40px 40px 40px 40px;
   grid-auto-flow: column;
+}
+.function {
+  font-size: 18px;
 }
 .operator {
 }

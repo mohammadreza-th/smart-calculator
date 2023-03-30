@@ -8,134 +8,246 @@ let keyBord = document.getElementById("keybord");
 let monitor = document.getElementById("monitor");
 let equalTo = document.getElementById("equal-to");
 let result = document.getElementById("result");
+let resultContainer = document.getElementById("result-container");
 let typed = document.getElementById("typed");
+let typedB = document.getElementById("typed__BackGround");
+let typedV = document.getElementById("typed__value");
 let clear = document.getElementById("clear");
 let claerResult = document.getElementById("claerResult");
 let remove = document.getElementById("delete-last-char");
 let Parentheses = document.getElementById("Parentheses");
 
+//object:
+const BUTTONS = [
+  { id: "0", view: "0", value: "0", type: "number" },
+  { id: "1", view: "1", value: "1", type: "number" },
+  { id: "2", view: "2", value: "2", type: "number" },
+  { id: "3", view: "3", value: "3", type: "number" },
+  { id: "4", view: "4", value: "4", type: "number" },
+  { id: "5", view: "5", value: "5", type: "number" },
+  { id: "6", view: "6", value: "6", type: "number" },
+  { id: "7", view: "7", value: "7", type: "number" },
+  { id: "8", view: "8", value: "8", type: "number" },
+  { id: "9", view: "9", value: "9", type: "number" },
+  { id: ".", view: ".", value: ".", type: "point" },
+  { id: "*", view: "x", value: "*", type: "operator" },
+  { id: "+", view: "+", value: "+", type: "operator" },
+  { id: "-", view: "-", value: "-", type: "operator" },
+  { id: "/", view: "/", value: "/", type: "operator" },
+  { id: "%", view: "%", value: "*(1/100)", type: "operator" },
+  { id: "()", value: setParentheses },
+];
+
 //functions:
-function toMonitor(a) {
- {
-    equalToIsValid = true;
-    if (typed.value === "0") {
-      typed.value = ``;
-      typed.value += `${a}`;
+function toMonitor(a, b) {
+  if (b) {
+    let selected = window.getSelection().toString();
+    if (selected) {
+      typedV.value = typedV.value.slice(0, -selected.length);
+      typedV.value += a;
     } else {
-      typed.value += `${a}`;
+      typedV.value += `${a}`;
+    }
+  } else {
+    typedV.value = `${a}`;
+  }
+}
+//---------------------------------------------------
+function toBackGround(a, b) {
+  {
+    if (b) {
+      if (typedB.value === "0") {
+        typedB.value = ``;
+        typedB.value += `${a}`;
+      } else {
+        typedB.value += `${a}`;
+      }
+    } else {
+      typedB.value = `${a}`;
     }
   }
 }
 
+//---------------------------------------------------
 function clearTyped() {
-  typed.value = ``;
-  operatorIsValid = false;
+  toMonitor("", false);
+  // toBackGround("", false);
+  typed.style.color = "var(--red-set-3)";
 }
 
-function deleteChar() {
-  if (typed.value.length > 0) {
-    typed.value = typed.value.substring(0, typed.value.length - 1);
+//---------------------------------------------------
+function deleteChar(a) {
+  let selected = window.getSelection().toString();
+  if (selected) {
+    toMonitor(typedV.value.slice(0, -selected.length), false);
   } else {
-    return;
+    if (a.length > 0) {
+      toMonitor(a.slice(0, -1), false);
+      // toBackGround(typed.value.slice(0, -1), false);
+      typed.style.color = "var(--red-set-3)";
+    } else {
+      return;
+    }
   }
 }
 
+//---------------------------------------------------
 function calculate(expression) {
   let answer;
-  if (
-    expression[expression.length - 1] === "-" ||
-    expression[expression.length - 1] === "+" ||
-    expression[expression.length - 1] === "*" ||
-    expression[expression.length - 1] === "/" ||
-    expression[expression.length - 1] === "%"
-  ) {
-    expression = expression.slice(0, -1);
-  }
   answer = eval(expression);
-  operatorIsValid = true;
-  typed.style.color = "green";
+  typed.style.color = "white";
   return answer;
 }
 
+//---------------------------------------------------
 function clearResult() {
   result.innerHTML = ``;
+  resultContainer.style.display = "none";
 }
 
+//---------------------------------------------------
 function setParentheses() {
   if (ParenthesesIsOpen) {
-    typed.value += ")";
+    toMonitor(")", true);
+    toBackGround(")", true);
   } else {
-    typed.value += "(";
+    toMonitor("(", true);
+    toBackGround("(", true);
 
     ParenthesesIsOpen = false;
   }
 }
+
+//---------------------------------------------------
+function whatType(num) {
+  let button = BUTTONS.find((option) => option.id === num);
+  console.log(button.type)
+  return button.type;
+
+}
+//---------------------------------------------------
+function valueOf(num) {
+  let button = BUTTONS.find((option) => option.id === num);
+  return button.value;
+}
+//---------------------------------------------------
+function viewOf(num) {
+  let button = BUTTONS.find((option) => option.id === num);
+  return button.view;
+}
+//---------------------------------------------------
 function insert(btn) {
-  const BUTTONS = [
-    { id: "test", value: "true" },
-    { id: "0", value: "0", type: "number" },
-    { id: "1", value: "1", type: "number" },
-    { id: "2", value: "2", type: "number" },
-    { id: "3", value: "3", type: "number" },
-    { id: "4", value: "4", type: "number" },
-    { id: "5", value: "5", type: "number" },
-    { id: "6", value: "6", type: "number" },
-    { id: "7", value: "7", type: "number" },
-    { id: "8", value: "8", type: "number" },
-    { id: "9", value: "9", type: "number" },
-    { id: "*", value: "*", type: "operator" },
-    { id: "+", value: "+", type: "operator" },
-    { id: "-", value: "-", type: "operator" },
-    { id: "/", value: "/", type: "operator" },
-    { id: "%", value: "%", type: "operator" },
-    { id: "()", value: setParentheses },
-  ];
-  let button = BUTTONS.find((option) => option.id === btn);
-  if(){}
-  if (typed.style.color === "green") {
-    if (button.type === "operator") {
-      typed.style.color = "black";
+  equalToIsValid = true;
+  if (valueOf(btn) === ".") {
+    if (!typedV.value.match(/[.]/)) {
+      if (typedV.value === "") {
+        toMonitor("0.", true);
+      } else {
+        toMonitor(".", true);
+      }
     } else {
-      typed.style.color = "black";
-      typed.value = "";
+      return;
+    }
+    return;
+  }
+
+  if (typedV.value === "") {
+    if (whatType(btn) === "operator") {
+      return;
+    } else {
+      equalToIsValid = true;
+      toMonitor(viewOf(btn), true);
+      // toBackGround(button.value, true);
+    }
+  } else {
+    let lastChar = typedV.value.slice(-1);
+    if (
+      whatType(lastChar) === whatType(btn) &&
+      whatType(btn) === "operator"
+    ) {
+      if (lastChar === viewOf(btn)) {
+        return;
+      } else {
+        toMonitor(typedV.value.slice(0, -1), false);
+        // toBackGround(typed.value.slice(0, -1), false);
+
+        toMonitor(viewOf(btn), true);
+        // toBackGround(button.backGround, true);
+      }
+    } else {
+      if (typed.style.color === "white") {
+        if (whatType(btn) === "operator") {
+          typed.style.color = "var(--red-set-3)";
+        } else {
+          typed.style.color = "var(--red-set-3)";
+          toMonitor("", false);
+          // toBackGround("", false);
+        }
+      }
+      toMonitor(viewOf(btn), true);
+      // toBackGround(button.value, true);
     }
   }
-  toMonitor(button.value);
 }
 
+//---------------------------------------------------
 function toResult() {
   if (equalToIsValid) {
     equalToIsValid = false;
-    typed.value = calculate(typed.value);
+    toMonitor(calculate(typedV.value), false);
+    // toBackGround(calculate(typed.value, false));
+    resultContainer.style.display = "block";
+
     let newResult = document.createElement("div");
     newResult.classList.add("result");
     result.appendChild(newResult);
-    if (typed.value === "undefined") {
-      typed.value = "";
+    if (typedV.value === "undefined") {
+      toMonitor("", false);
+      // toBackGround("", false);
     } else {
-      newResult.innerHTML = `<div>${calculate(typed.value)}</div>
-   <div class="result__btns"> <button class="copy fa fa-copy"></button>
-   <button class="deleteResult fa fa-remove"></button>
-   <button class="use fa fa-display"></button>
-   </div>
-    `;
-      newResult.querySelector(".copy").addEventListener("click", () => {
+      newResult.innerHTML = `<div>${calculate(typedV.value)}</div>
+      <div class="result__btns">
+      <button class="copy fa fa-copy">
+      </button>
+      <button class="deleteResult fa fa-remove">
+      </button>
+      <button class="use fa fa-display">
+      </button>
+      </div>
+      `;
+      newResult.querySelector(".copy").addEventListener("click", (event) => {
+        let copyTooltip = document.createElement("div");
+        copyTooltip.classList.add("tooltip");
+        newResult.appendChild(copyTooltip);
+
+        copyTooltip.innerHTML = `<span>${newResult.firstChild.innerText}</span> copied!`;
         navigator.clipboard.writeText(newResult.innerText);
+        setTimeout(() => {
+          newResult.removeChild(copyTooltip);
+        }, 1000);
       });
       newResult
         .querySelector(".deleteResult")
         .addEventListener("click", (event) => {
+          if (result.childElementCount === 1) {
+            resultContainer.style.display = "none";
+          }
           result.removeChild(event.target.parentElement.parentElement);
         });
       newResult.querySelector(".use").addEventListener("click", (event) => {
-        typed.value +=
-          event.target.parentElement.parentElement.childNodes[0].innerText;
-        typed.style.color = "black";
+        toMonitor(
+          event.target.parentElement.parentElement.childNodes[0].innerText,
+          false
+        );
+        // toBackGround(
+        //   event.target.parentElement.parentElement.childNodes[0].innerText,
+        //   false
+        // );
+        typed.style.color = "var(--red-set-3)";
         equalToIsValid = true;
-        operatorIsValid = true;
       });
       result.insertBefore(newResult, result.childNodes[0]);
-      if (result.childNodes.length === 14) {
+      if (result.childNodes.length === 10) {
         result.removeChild(result.lastChild);
       }
     }
@@ -146,10 +258,17 @@ function toResult() {
 equalTo.addEventListener("click", toResult);
 clear.addEventListener("click", clearTyped);
 claerResult.addEventListener("click", clearResult);
-remove.addEventListener("click", deleteChar);
+remove.addEventListener("click", () => {
+  deleteChar(typedV.value);
+});
 Parentheses.addEventListener("click", setParentheses);
 
-typed.addEventListener("keypress", (event) => {
+typedV.addEventListener("keydown", (event) => {
+  if (event.key === "Backspace") {
+    event.preventDefault();
+    deleteChar(typedV.value);
+  }
+
   event.preventDefault();
   if (event.key === "Enter") {
     toResult();

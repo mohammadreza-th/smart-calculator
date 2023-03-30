@@ -1,4 +1,5 @@
 <!-- بسم الله الرحمن الرحیم -->
+<div class="container">
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -20,38 +21,50 @@
   <body>
     <main>
       <div class="calculator">
+        <input id="typed__BackGround"/>
+        <input id="typed__value"/>
         <div id="monitor" class="monitor">
-          <input type="text" id="typed" class="typed"  />
+          <input type="text" id="typed" class="typed" />
         </div>
         <div id="keybord" class="keybord">
-          <div id="numbers" class="numbers">
-            <button class="number" value="1">1</button>
-            <button class="number" value="2">2</button>
-            <button class="number" value="3">3</button>
-            <button class="number" value="4">4</button>
-            <button class="number" value="5">5</button>
-            <button class="number" value="6">6</button>
-            <button class="number" value="7">7</button>
-            <button class="number" value="8">8</button>
-            <button class="number" value="9">9</button>
-            <button class="number" value=".">.</button>
-            <button class="number" value="0">0</button>
-            <button class="number" id="equal-to">=</button>
+          <div id="numbers" class="buttons">
+            <button class="number button" value="1">1</button>
+            <button class="number button" value="2">2</button>
+            <button class="number button" value="3">3</button>
+            <button class="number button" value="4">4</button>
+            <button class="number button" value="5">5</button>
+            <button class="number button" value="6">6</button>
+            <button class="number button" value="7">7</button>
+            <button class="number button" value="8">8</button>
+            <button class="number button" value="9">9</button>
+            <button class="number button" value=".">.</button>
+            <button class="number button" value="0">0</button>
+            <button class="number button" id="equal-to">=</button>
           </div>
-          <div class="operators numbers">
-            <button class="operator number" value="+">+</button>
-            <button class="operator number" value="-">-</button>
-            <button class="operator number" value="*">x</button>
-            <button class="operator number" value="/">/</button>
-            <button class="operator number" value="%">%</button>
-            <button class="operator number" id="delete-last-char">dell</button>
-            <button class="operator number" id="clear">C</button>
-            <button class="operator number" id="Parentheses">()</button>
+          <div class="operators buttons">
+            <button class="operator button" value="+">+</button>
+            <button class="operator button" value="-">-</button>
+            <button class="operator button" value="*">x</button>
+            <button class="operator button" value="/">/</button>
+            <button class="function button" id="delete-last-char">AD</button>
+            <button class="function button" id="clear">AC</button>
+            <button class="operator button" value="%">%</button>
+            <button class="operator button" id="Parentheses">()</button>
+          </div>
+          <div class="functions buttons">
+            <button class="function button">sin</button>
+            <button class="function button">cos</button>
+            <button class="function button">tan</button>
+            <button class="function button">cot</button>
+            <button class="function button">Log</button>
+            <button class="function button">&#x221A</button>
+            <button class="function button"><p>X<sup>2</sup></p></button>
+            <button class="function button"><p>X<sup>y</sup></p></button>
           </div>
         </div>
       </div>
       <div id="result-container" class="result-container">
-        <button id="claerResult">clear</button> results list:
+        <button id="claerResult">clear</button>
         <div id="result" class="results"></div>
       </div>
     </main>
