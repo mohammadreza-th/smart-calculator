@@ -30,12 +30,19 @@ const BUTTONS = [
   { id: "8", view: "8", value: "8", type: "number" },
   { id: "9", view: "9", value: "9", type: "number" },
   { id: ".", view: ".", value: ".", type: "point" },
-  { id: "*", view: "x", value: "*", type: "operator" },
+  { id: "*", view: "*", value: "*", type: "operator" },
   { id: "+", view: "+", value: "+", type: "operator" },
   { id: "-", view: "-", value: "-", type: "operator" },
   { id: "/", view: "/", value: "/", type: "operator" },
+  { id: "sin(", view: "sin(", value: "Math.sin(", type: "function" },
+
   { id: "%", view: "%", value: "*(1/100)", type: "operator" },
-  { id: "()", value: setParentheses },
+  {
+    id: "()",
+    view: `${setParentheses}`,
+    value: `${setParentheses}`,
+    type: "function",
+  },
 ];
 
 //functions:
@@ -108,22 +115,19 @@ function clearResult() {
 //---------------------------------------------------
 function setParentheses() {
   if (ParenthesesIsOpen) {
-    toMonitor(")", true);
-    toBackGround(")", true);
+    return ")";
+    // toBackGround(")", true);
   } else {
-    toMonitor("(", true);
-    toBackGround("(", true);
-
-    ParenthesesIsOpen = false;
+    return "(";
+    // toBackGround("(", true);
   }
 }
 
 //---------------------------------------------------
 function whatType(num) {
   let button = BUTTONS.find((option) => option.id === num);
-  console.log(button.type)
+  console.log(button.type);
   return button.type;
-
 }
 //---------------------------------------------------
 function valueOf(num) {
@@ -136,8 +140,16 @@ function viewOf(num) {
   return button.view;
 }
 //---------------------------------------------------
+function convertToValidExpresion(num) {
+  expression = "153x%5";
+  expression.replace(/x/g, "*");
+  expression.replace(/%/g, "*0.01");
+}
+//---------------------------------------------------
 function insert(btn) {
+  console.log(btn);
   equalToIsValid = true;
+  // how to use from "."
   if (valueOf(btn) === ".") {
     if (!typedV.value.match(/[.]/)) {
       if (typedV.value === "") {
@@ -150,7 +162,7 @@ function insert(btn) {
     }
     return;
   }
-
+//how to use operators
   if (typedV.value === "") {
     if (whatType(btn) === "operator") {
       return;
@@ -161,10 +173,7 @@ function insert(btn) {
     }
   } else {
     let lastChar = typedV.value.slice(-1);
-    if (
-      whatType(lastChar) === whatType(btn) &&
-      whatType(btn) === "operator"
-    ) {
+    if (whatType(lastChar) === whatType(btn) && whatType(btn) === "operator") {
       if (lastChar === viewOf(btn)) {
         return;
       } else {
@@ -261,7 +270,7 @@ claerResult.addEventListener("click", clearResult);
 remove.addEventListener("click", () => {
   deleteChar(typedV.value);
 });
-Parentheses.addEventListener("click", setParentheses);
+// Parentheses.addEventListener("click", setParentheses);
 
 typedV.addEventListener("keydown", (event) => {
   if (event.key === "Backspace") {
@@ -282,8 +291,8 @@ keyBord.addEventListener("click", (event) => {
     if (
       event.target.id === "clear" ||
       event.target.id === "equal-to" ||
-      event.target.id === "delete-last-char" ||
-      event.target.id === "Parentheses"
+      event.target.id === "delete-last-char"
+      // event.target.id === "Parentheses"
     ) {
       return;
     } else {
