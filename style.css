@@ -19,6 +19,13 @@
   --blue-set-3: rgb(0, 0, 150);
   --blue-set-4: rgb(0, 0, 200);
 }
+
+/* adding fonts: */
+@font-face {
+  font-family: Handlee-Regular;
+  src: url(./fonts/DigitalNumbers-Regular.ttf);
+  src: url(./fonts/Handlee-Regular.ttf);
+}
 main {
   display: flex;
   background-color: var(--red-set-6);
@@ -76,9 +83,9 @@ button {
   border-radius: 7px 7px 0 0;
   background-color: white;
   height: 50px;
-  /* width: 100%; */
 }
 .display input {
+  /* font-family: Handlee-Regular; */
   margin: 0;
   padding: 0 5px;
   width: 100%;

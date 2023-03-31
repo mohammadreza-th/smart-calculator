@@ -11,7 +11,6 @@ let result = document.getElementById("result");
 let resultContainer = document.getElementById("result-container");
 let typed = document.getElementById("typed");
 let typedB = document.getElementById("typed__BackGround");
-let typedV = document.getElementById("typed__value");
 let clear = document.getElementById("clear");
 let claerResult = document.getElementById("claerResult");
 let remove = document.getElementById("delete-last-char");
@@ -42,6 +41,7 @@ const BUTTONS = [
   { id: "cot(", view: "cot(", type: "function" },
   { id: "log(", view: "log(", type: "function" },
   { id: "pi", view: "Π", type: "function" },
+  { id: "√", view: "√(", type: "function" },
 
   { id: "%", view: "%", value: "*(1/100)", type: "operator" },
 ];
@@ -51,13 +51,13 @@ function toDisplay(a, b) {
   if (b) {
     let selected = window.getSelection().toString();
     if (selected) {
-      typedV.value = typedV.value.slice(0, -selected.length);
-      typedV.value += a;
+      typed.value = typed.value.slice(0, -selected.length);
+      typed.value += a;
     } else {
-      typedV.value += `${a}`;
+      typed.value += `${a}`;
     }
   } else {
-    typedV.value = `${a}`;
+    typed.value = `${a}`;
   }
 }
 
@@ -71,7 +71,7 @@ function clearTyped() {
 function deleteChar(a) {
   let selected = window.getSelection().toString();
   if (selected) {
-    toDisplay(typedV.value.slice(0, -selected.length), false);
+    toDisplay(typed.value.slice(0, -selected.length), false);
   } else {
     if (a.length > 0) {
       toDisplay(a.slice(0, -1), false);
@@ -100,12 +100,12 @@ function clearResult() {
 function setParentheses() {
   let parenthese = "(";
   let closePCount =
-    typedV.value.match(/[)]/g) === null ? 0 : typedV.value.match(/[)]/g).length;
+    typed.value.match(/[)]/g) === null ? 0 : typed.value.match(/[)]/g).length;
   let openPCount =
-    typedV.value.match(/[(]/g) === null ? 0 : typedV.value.match(/[(]/g).length;
+    typed.value.match(/[(]/g) === null ? 0 : typed.value.match(/[(]/g).length;
   //when we have open parantheses --------------
-  if (typedV.value !== "") {
-    lastChar = typedV.value.slice(-1);
+  if (typed.value !== "") {
+    lastChar = typed.value.slice(-1);
     //after a number:
     if (whatType(lastChar) === "number") {
       if (openPCount > closePCount) {
@@ -126,7 +126,7 @@ function setParentheses() {
     //after an operator:
     if (whatType(lastChar) === "operator") {
       console.log("problem");
-      if (whatType(typedV.value.charAt(typedV.value.length - 2)) === "number") {
+      if (whatType(typed.value.charAt(typed.value.length - 2)) === "number") {
         parenthese = "(";
       }
     }
@@ -154,20 +154,21 @@ function convertToValidExpresion(num) {
   expression = expression.replace(/cos/g, "Math.cos");
   expression = expression.replace(/tan/g, "Math.tan");
   expression = expression.replace(/cot/g, "Math.cot");
-  expression = expression.replace(/log/g, "Math.log");
+  expression = expression.replace(/log/g, "Math.log10");
+  expression = expression.replace(/√/g, "Math.sqrt");
   expression = expression.replace(/%/g, "*0.01*");
   expression = expression.replace(/%/g, "*0.01*");
-  expression = expression.replace(/%/g, "*0.01*");
+  expression = expression.replace(/Π/g, "Math.PI");
   return expression;
 }
-console.log("convert of (sin(0)):", convertToValidExpresion("sin(0)"));
+console.log("convert of (log(100)):", eval(convertToValidExpresion("log(100)")));
 //---------------------------------------------------
 function insert(btn) {
   equalToIsValid = true;
   // how to use from "."
   if (viewOf(btn) === ".") {
-    if (!typedV.value.match(/[.]/)) {
-      if (typedV.value === "") {
+    if (!typed.value.match(/[.]/)) {
+      if (typed.value === "") {
         toDisplay("0.", true);
       } else {
         toDisplay(".", true);
@@ -178,7 +179,7 @@ function insert(btn) {
     return;
   }
   //when dispaly is empty:
-  if (typedV.value === "") {
+  if (typed.value === "") {
     //after typping operator:
     if (whatType(btn) === "operator") {
       return;
@@ -191,14 +192,14 @@ function insert(btn) {
   }
   //when display isn't empty
   else {
-    lastChar = typedV.value.slice(-1);
+    lastChar = typed.value.slice(-1);
 
     //after typping an operator:
     if (whatType(btn) === "operator") {
       if (lastChar === "(") {
         return;
       } else if (whatType(btn) === whatType(lastChar)) {
-        toDisplay(typedV.value.slice(0, -1), false);
+        toDisplay(typed.value.slice(0, -1), false);
         toDisplay(viewOf(btn), true);
       } else {
         toDisplay(viewOf(btn), true);
@@ -224,16 +225,16 @@ function insert(btn) {
 function toResult() {
   if (equalToIsValid) {
     equalToIsValid = false;
-    toDisplay(calculate(typedV.value), false);
+    toDisplay(calculate(typed.value), false);
     resultContainer.style.display = "block";
 
     let newResult = document.createElement("div");
     newResult.classList.add("result");
     result.appendChild(newResult);
-    if (typedV.value === "undefined") {
+    if (typed.value === "undefined") {
       toDisplay("", false);
     } else {
-      newResult.innerHTML = `<div>${calculate(typedV.value)}</div>
+      newResult.innerHTML = `<div>${calculate(typed.value)}</div>
       <div class="result__btns">
       <button class="copy fa fa-copy">
       </button>
@@ -287,13 +288,13 @@ clear.addEventListener("click", clearTyped);
 claerResult.addEventListener("click", clearResult);
 parentheses.addEventListener("click", setParentheses);
 remove.addEventListener("click", () => {
-  deleteChar(typedV.value);
+  deleteChar(typed.value);
 });
 
-typedV.addEventListener("keydown", (event) => {
+typed.addEventListener("keydown", (event) => {
   if (event.key === "Backspace") {
     event.preventDefault();
-    deleteChar(typedV.value);
+    deleteChar(typed.value);
   }
 
   event.preventDefault();
