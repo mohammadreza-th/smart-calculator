@@ -19,24 +19,29 @@ let parentheses = document.getElementById("Parentheses");
 
 //object:
 const BUTTONS = [
-  { id: "0", view: "0", value: "0", type: "number" },
-  { id: "1", view: "1", value: "1", type: "number" },
-  { id: "2", view: "2", value: "2", type: "number" },
-  { id: "3", view: "3", value: "3", type: "number" },
-  { id: "4", view: "4", value: "4", type: "number" },
-  { id: "5", view: "5", value: "5", type: "number" },
-  { id: "6", view: "6", value: "6", type: "number" },
-  { id: "7", view: "7", value: "7", type: "number" },
-  { id: "8", view: "8", value: "8", type: "number" },
-  { id: "9", view: "9", value: "9", type: "number" },
-  { id: ".", view: ".", value: ".", type: "point" },
-  { id: "*", view: "*", value: "*", type: "operator" },
-  { id: "+", view: "+", value: "+", type: "operator" },
-  { id: "-", view: "-", value: "-", type: "operator" },
-  { id: "/", view: "/", value: "/", type: "operator" },
-  { id: ")", view: ")", value: ")", type: "parentheses" },
-  { id: "(", view: "(", value: "(", type: "parentheses" },
-  { id: "sin(", view: "sin(", value: "Math.sin(", type: "function" },
+  { id: "0", view: "0", type: "number" },
+  { id: "1", view: "1", type: "number" },
+  { id: "2", view: "2", type: "number" },
+  { id: "3", view: "3", type: "number" },
+  { id: "4", view: "4", type: "number" },
+  { id: "5", view: "5", type: "number" },
+  { id: "6", view: "6", type: "number" },
+  { id: "7", view: "7", type: "number" },
+  { id: "8", view: "8", type: "number" },
+  { id: "9", view: "9", type: "number" },
+  { id: ".", view: ".", type: "point" },
+  { id: "*", view: "*", type: "operator" },
+  { id: "+", view: "+", type: "operator" },
+  { id: "-", view: "-", type: "operator" },
+  { id: "/", view: "/", type: "operator" },
+  { id: ")", view: ")", type: "parentheses" },
+  { id: "(", view: "(", type: "parentheses" },
+  { id: "sin(", view: "sin(", type: "function" },
+  { id: "cos(", view: "cos(", type: "function" },
+  { id: "tan(", view: "tan(", type: "function" },
+  { id: "cot(", view: "cot(", type: "function" },
+  { id: "log(", view: "log(", type: "function" },
+  { id: "pi", view: "Π", type: "function" },
 
   { id: "%", view: "%", value: "*(1/100)", type: "operator" },
 ];
@@ -79,8 +84,8 @@ function deleteChar(a) {
 
 //---------------------------------------------------
 function calculate(expression) {
-  let answer;
-  answer = eval(expression);
+  let answer = convertToValidExpresion(expression);
+  answer = eval(answer);
   typed.style.color = "white";
   return answer;
 }
@@ -131,31 +136,36 @@ function setParentheses() {
 }
 
 //---------------------------------------------------
-function whatType(num) {
-  let button = BUTTONS.find((option) => option.id === num);
+function whatType(btn) {
+  let button = BUTTONS.find((option) => option.id === btn);
   return button.type;
 }
 //---------------------------------------------------
-function valueOf(num) {
-  let button = BUTTONS.find((option) => option.id === num);
-  return button.value;
-}
-//---------------------------------------------------
-function viewOf(num) {
-  let button = BUTTONS.find((option) => option.id === num);
+function viewOf(btn) {
+  let button = BUTTONS.find((option) => option.id === btn);
   return button.view;
 }
 //---------------------------------------------------
 function convertToValidExpresion(num) {
-  expression = "153x%5";
-  expression.replace(/x/g, "*");
-  expression.replace(/%/g, "*0.01");
+  expression = num;
+  expression = expression.replace(/x/g, "*");
+  expression = expression.replace(/%/g, "*0.01*");
+  expression = expression.replace(/sin/g, "Math.sin");
+  expression = expression.replace(/cos/g, "Math.cos");
+  expression = expression.replace(/tan/g, "Math.tan");
+  expression = expression.replace(/cot/g, "Math.cot");
+  expression = expression.replace(/log/g, "Math.log");
+  expression = expression.replace(/%/g, "*0.01*");
+  expression = expression.replace(/%/g, "*0.01*");
+  expression = expression.replace(/%/g, "*0.01*");
+  return expression;
 }
+console.log("convert of (sin(0)):", convertToValidExpresion("sin(0)"));
 //---------------------------------------------------
 function insert(btn) {
   equalToIsValid = true;
   // how to use from "."
-  if (valueOf(btn) === ".") {
+  if (viewOf(btn) === ".") {
     if (!typedV.value.match(/[.]/)) {
       if (typedV.value === "") {
         toDisplay("0.", true);
@@ -275,10 +285,10 @@ function toResult() {
 equalTo.addEventListener("click", toResult);
 clear.addEventListener("click", clearTyped);
 claerResult.addEventListener("click", clearResult);
+parentheses.addEventListener("click", setParentheses);
 remove.addEventListener("click", () => {
   deleteChar(typedV.value);
 });
-Parentheses.addEventListener("click", setParentheses);
 
 typedV.addEventListener("keydown", (event) => {
   if (event.key === "Backspace") {
