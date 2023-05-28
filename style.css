@@ -9,7 +9,7 @@
 
   --red-set-1: rgb(50, 0, 0);
   --red-set-2: rgb(100, 0, 0);
-  --red-set-3: rgb(150, 0, 0);
+  --red-set-3: rgb(150, 0, 0);  
   --red-set-4: rgb(200, 0, 0);
   --red-set-5: rgb(255, 150, 150);
   --red-set-6: rgb(255, 200, 200);
@@ -23,8 +23,8 @@
 /* adding fonts: */
 @font-face {
   font-family: Handlee-Regular;
-  src: url(./fonts/DigitalNumbers-Regular.ttf);
-  src: url(./fonts/Handlee-Regular.ttf);
+  src: url(./DigitalNumbers-Regular.ttf);
+  src: url(./Handlee-Regular.ttf);
 }
 main {
   display: flex;

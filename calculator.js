@@ -69,7 +69,10 @@ function clearTyped() {
 
 //---------------------------------------------------
 function deleteChar(a) {
+
   let selected = window.getSelection().toString();
+  console.log(selected)
+
   if (selected) {
     toDisplay(typed.value.slice(0, -selected.length), false);
   } else {
